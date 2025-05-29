@@ -101,3 +101,37 @@ setInterval(() => {
     obstacleSpeed += 0.5;  // speed increases gradually
   }
 }, 5000);  // every 5 seconds
+function moveObstacles() {
+  obstacles.forEach((obs, index) => {
+    let top = parseInt(obs.style.top);
+    top += obstacleSpeed;  // use variable speed
+    
+    if (top > 600) {
+      obs.remove();
+      obstacles.splice(index, 1);
+      score++;
+      updateScore();
+    } else {
+      obs.style.top = top + 'px';
+
+      if (detectCollision(obs)) {
+        endGame();
+      }
+    }
+  });
+}carRect.top
+function endGame() {
+  gameOver = true;
+  alert("Game Over! Your score: " + score);
+
+  const restartBtn = document.createElement('button');
+  restartBtn.textContent = "Restart Game";
+  restartBtn.style.display = 'block';
+  restartBtn.style.margin = '20px auto';
+  restartBtn.style.padding = '10px 20px';
+  restartBtn.style.fontSize = '18px';
+  restartBtn.onclick = () => {
+    window.location.reload();
+  };
+  document.body.appendChild(restartBtn);
+}
