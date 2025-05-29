@@ -94,3 +94,10 @@ scoreDisplay.style.color = 'white';
 scoreDisplay.style.textAlign = 'center';
 document.body.insertBefore(scoreDisplay, gameArea);
 updateScore();
+let obstacleSpeed = 10;
+
+setInterval(() => {
+  if (!gameOver) {
+    obstacleSpeed += 0.5;  // speed increases gradually
+  }
+}, 5000);  // every 5 seconds
