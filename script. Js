@@ -14,3 +14,83 @@ function moveRoadLines() {
 }
 
 setInterval(moveRoadLines, 100);  // every 100 ms move lines
+const gameArea = document.getElementById('gameArea');
+let obstacles = [];
+let gameOver = false;
+let score = 0;
+
+function createObstacle() {
+  const obstacle = document.createElement('div');
+  obstacle.classList.add('obstacle');
+  
+  // Random left position within game area width
+  obstacle.style.left = Math.floor(Math.random() * (gameArea.clientWidth - 50)) + 'px';
+  
+  obstacle.style.top = '-120px'; // start above game area
+  
+  gameArea.appendChild(obstacle);
+  obstacles.push(obstacle);
+}
+
+function moveObstacles() {
+  obstacles.forEach((obs, index) => {
+    let top = parseInt(obs.style.top);
+    top += 10; // speed of obstacle
+    
+    if (top > 600) {
+      // Obstacle passed screen, remove it & increase score
+      obs.remove();
+      obstacles.splice(index, 1);
+      score++;
+      updateScore();
+    } else {
+      obs.style.top = top + 'px';
+
+      // Collision detection
+      if (detectCollision(obs)) {
+        endGame();
+      }
+    }
+  });
+}
+
+function detectCollision(obs) {
+  const carRect = car.getBoundingClientRect();
+  const obsRect = obs.getBoundingClientRect();
+
+  return !(
+    carRect.top > obsRect.bottom ||
+    carRect.bottom < obsRect.top ||
+    carRect.left > obsRect.right ||
+    carRect.right < obsRect.left
+  );
+}
+
+function endGame() {
+  gameOver = true;
+  alert("Game Over! Your score: " + score);
+  // Reload or reset game
+  window.location.reload();
+}
+
+function updateScore() {
+  document.getElementById('score').textContent = `Score: ${score}`;
+}
+
+// Start obstacle creation interval
+setInterval(() => {
+  if (!gameOver) createObstacle();
+}, 2000);
+
+// Move obstacles every 100 ms
+setInterval(() => {
+  if (!gameOver) moveObstacles();
+}, 100);
+
+// Score display
+const scoreDisplay = document.createElement('h3');
+scoreDisplay.id = 'score';
+scoreDisplay.style.color = 'white';
+scoreDisplay.style.textAlign = 'center';
+document.body.insertBefore(scoreDisplay, gameArea);
+updateScore();
