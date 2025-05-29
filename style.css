@@ -1,1 +1,8 @@
-
+.road-line {
+  position: absolute;
+  width: 10px;
+  height: 100px;
+  background: white;
+  left: 195px;  /* road center */
+  border-radius: 5px;
+}
