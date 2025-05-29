@@ -1,1 +1,16 @@
+line.style.topconst roadLines = document.querySelectorAll('.road-line');
 
+function moveRoadLines() {
+  roadLines.forEach(line => {
+    let top = parseInt(line.style.top);
+    top += 10;  // move down
+
+    if (top > 600) {
+      top = -100;  // reset top to above visible area
+    }
+
+    line.style.top = top + 'px';
+  });
+}
+
+setInterval(moveRoadLines, 100);  // every 100 ms move lines
