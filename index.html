@@ -67,3 +67,90 @@
     }
   });
     </script>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Racing Game</title>
+  <style>
+    body {
+      margin: 0;
+      background: #444;
+      overflow: hidden;
+    }
+    #gameArea {
+      width: 400px;
+      height: 600px;
+      background: grey;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid white;
+    }
+    #car {
+      width: 50px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      bottom: 10px;
+      left: 175px;
+      border-radius: 10px;
+    }
+    .road-line {
+      position: absolute;
+      width: 10px;
+      height: 100px;
+      background: white;
+      left: 195px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameArea">
+    <div class="road-line" style="top: 0;"></div>
+    <div class="road-line" style="top: 150px;"></div>
+    <div class="road-line" style="top: 300px;"></div>
+    <div class="road-line" style="top: 450px;"></div>
+    <div class="road-line" style="top: 600px;"></div>
+
+    <div id="car"></div>
+  </div>
+
+  <script>
+    const car = document.getElementById('car');
+    const gameArea = document.getElementById('gameArea');
+    const roadLines = document.querySelectorAll('.road-line');
+
+    let carPosition = 175;
+
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') {
+        carPosition -= 20;
+        if (carPosition < 0) carPosition = 0;
+        car.style.left = carPosition + 'px';
+      }
+      else if (e.key === 'ArrowRight') {
+        carPosition += 20;
+        if (carPosition > (gameArea.clientWidth - car.clientWidth)) {
+          carPosition = gameArea.clientWidth - car.clientWidth;
+        }
+        car.style.left = carPosition + 'px';
+      }
+    });
+
+    function moveRoadLines() {
+      roadLines.forEach(line => {
+        let top = parseInt(line.style.top);
+        top += 10;
+
+        if (top > 600) {
+          top = -100;
+        }
+        line.style.top = top + 'px';
+      });
+    }
+
+    setInterval(moveRoadLines, 100);
+  </script>
+</body>
+line.style.top</html>
